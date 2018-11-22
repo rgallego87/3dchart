@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <chart2 />  
+    <chart2 class="center"/>
   </div>
 </template>
 
@@ -11,9 +11,9 @@ import chart2 from "./components/chart2.vue";
 
 export default {
   name: "app",
-  components: {    
+  components: {
     chart, chart2
-  }  
+  }
 };
 </script>
 

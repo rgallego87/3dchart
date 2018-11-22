@@ -6,7 +6,9 @@
 </template>
 
 <script>
-import Plotly from 'plotly.js';
+// import Plotly from 'plotly.js';
+// var Plotly = require('plotly.js/lib/core');
+// Plotly.register(require('plotly.js/lib/surface'));
 
 const y_freq = [];
 const z_vibra = [];
@@ -19,32 +21,34 @@ export default {
     },
 
     methods: {
-        fetchData() {
-            Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv', (err, rows) => {
-                if (err) {
-                    rows = []
-                }
-                this.rows = rows
-                this.drawPlot()
-            })
+        async fetchData() {
+            try {
+                const data = await fetch('http://predictivepumpsapi.azurewebsites.net/api/Spectrum/GetSpectrum/RPG/GA-859-S/3V/2018-11-14%2015%3A33%3A37.383');
+                const json = await data.json();
+
+                json.Spectrum.forEach(element => {
+                    y_freq.push(element.frecuencia);
+                    z_vibra.push(element.vibracion);
+                });
+
+                console.log('y_freq', y_freq)
+                console.log('z_vibra', z_vibra)
+                this.drawPlot();
+
+            } catch (err) {
+                console.error(err);
+            }
         },
         drawPlot() {
-            let rows = this.rows
-            function unpack(rows, key) {
-                return rows.map(function (row) { return row[key]; });
-            }
-            var z_data = []
-            for (var i = 0; i < 24; i++) {
-                z_data.push(unpack(rows, i));
-            }
-
             var data = [{
-                z: z_data,
+                // z: z_data,
+                y: y_freq,
+                z: [z_vibra, z_vibra],
                 type: 'surface'
             }];
 
             var layout = {
-                title: 'Mt Bruno Elevation',
+
                 autosize: false,
                 width: 500,
                 height: 500,
@@ -61,4 +65,5 @@ export default {
 }
 
 </script>
+
 
