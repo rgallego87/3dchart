@@ -33,6 +33,6 @@ export default {
 
 .center {
   margin: 0 auto;
-  width: 60%;
+  width: 70%;
 }
 </style>

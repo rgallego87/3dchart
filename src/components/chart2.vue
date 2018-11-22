@@ -10,6 +10,7 @@
 // var Plotly = require('plotly.js/lib/core');
 // Plotly.register(require('plotly.js/lib/surface'));
 
+const x_time = '';
 const y_freq = [];
 const z_vibra = [];
 
@@ -17,7 +18,7 @@ export default {
     name: 'chart2',
 
     created() {
-        this.fetchData()
+        this.fetchData();
     },
 
     methods: {
@@ -26,13 +27,20 @@ export default {
                 const data = await fetch('http://predictivepumpsapi.azurewebsites.net/api/Spectrum/GetSpectrum/RPG/GA-859-S/3V/2018-11-14%2015%3A33%3A37.383');
                 const json = await data.json();
 
-                json.Spectrum.forEach(element => {
-                    y_freq.push(element.frecuencia);
-                    z_vibra.push(element.vibracion);
+                this.x_time = Date.parse(json.SourceTimeStamp);
+
+                json.Spectrum.forEach((element, index) => {
+                    // Filtering only multiples of 10 to reduce results
+                    if (index % 10 === 0) {
+                        y_freq.push(element.frecuencia);
+                        z_vibra.push(element.vibracion);
+                    }
                 });
 
-                console.log('y_freq', y_freq)
-                console.log('z_vibra', z_vibra)
+                console.log('x_time', this.x_time);
+                // console.log('y_freq', y_freq);
+                // console.log('z_vibra', z_vibra);
+
                 this.drawPlot();
 
             } catch (err) {
@@ -41,7 +49,7 @@ export default {
         },
         drawPlot() {
             var data = [{
-                // z: z_data,
+                // x: [this.x_time],
                 y: y_freq,
                 z: [z_vibra, z_vibra],
                 type: 'surface'
@@ -50,8 +58,8 @@ export default {
             var layout = {
 
                 autosize: false,
-                width: 500,
-                height: 500,
+                width: 700,
+                height: 700,
                 margin: {
                     l: 65,
                     r: 50,
@@ -65,5 +73,6 @@ export default {
 }
 
 </script>
+
 
 
