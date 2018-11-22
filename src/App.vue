@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <chart />  
+    <chart2 />  
   </div>
 </template>
 
 <script>
 import chart from "./components/chart.vue";
+import chart2 from "./components/chart2.vue";
 
 
 export default {
   name: "app",
   components: {    
-    chart
+    chart, chart2
   }  
 };
 </script>
