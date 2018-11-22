@@ -1,4 +1,4 @@
-# 3dchart in Vuejs with Plotly HOLA
+# 3dchart in Vuejs with Plotly vamos
 
 ## Project setup
 
