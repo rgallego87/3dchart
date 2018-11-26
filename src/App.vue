@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <chart2 class="center"/>
+    <chart3 class="center"/>
   </div>
 </template>
 
 <script>
 import chart from "./components/chart.vue";
 import chart2 from "./components/chart2.vue";
-
+import chart3 from "./components/chart3.vue";
 
 export default {
   name: "app",
   components: {
-    chart, chart2
+    chart, chart2, chart3
   }
 };
 </script>
