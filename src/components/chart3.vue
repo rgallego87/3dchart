@@ -11,7 +11,9 @@
 // Plotly.register(require('plotly.js/lib/surface'));
 
 const nSpectres = 20;
-const precision = 10;
+const precision = 25;
+const y_range = 800;
+
 let x_fake = 1;
 const x_times = [];
 const y_freqs = [];
@@ -32,17 +34,15 @@ export default {
                 const json = await require('../../public/chart-test.json');
 
                 // console.log(json);
-
                 // this.x_time = Date.parse(json.SourceTimeStamp);
 
                 // Quantity of plots to draw with i (performance)
                 for (let i = 0; i < nSpectres; i++) {
                     x_fake += 2;
                     json[i].Spectrum.forEach((element, index) => {
-                        // Filtering only multiples of 10 to reduce results
-                        if (index % precision === 0) {
-                            // Inserting two times same
-                            // x_times.push(new Array(index, index + 1));                            
+                        // Filtering only multiples of precision to reduce results
+                        if (index < y_range && index % precision === 0) {
+                            // Inserting two times same because of Plotly                                                     
                             x_times.push(new Array(x_fake, x_fake + 1));
                             y_freqs.push(new Array(element.frecuencia, element.frecuencia));
                             z_vibras.push(new Array(element.vibracion, element.vibracion));
@@ -54,7 +54,7 @@ export default {
                 console.log('y_freqs', y_freqs);
                 console.log('z_vibras', z_vibras);
 
-                this.drawPlot();
+                await this.drawPlot();
 
             } catch (err) {
                 console.error(err);
@@ -75,45 +75,11 @@ export default {
         },
         drawPlot() {
 
-            // var trace1 = {
-            //     x: [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]],
-            //     // x: x_times,
-            //     y: y_freqs,
-            //     z: z_vibras,
-            //     name: '',
-            //     type: 'surface',
-            //     autocolorscale: true,
-            //     showscale: false
-            // }
-
-            // var trace2 = {
-            //     x: [[4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5], [4, 5]],
-            //     // x: x_times,
-            //     y: y_freqs,
-            //     z: z_vibras,
-            //     name: '',
-            //     autocolorscale: true,
-            //     type: 'surface',
-            //     showscale: false
-            // }
-
-            // var trace3 = {
-            //     x: [[6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7], [6, 7]],
-            //     // x: x_times,
-            //     y: y_freqs,
-            //     z: z_vibras,
-            //     name: '',
-            //     autocolorscale: true,
-            //     type: 'surface',
-            //     showscale: false
-            // }
-
             let data = [];
             let nTraces = nSpectres;
             for (let i = 0; i < nTraces; i++) {
                 data.push(this.generateTrace(x_times, y_freqs, z_vibras));
             }
-
             console.log('data ', data);
 
             let layout = {
@@ -123,7 +89,10 @@ export default {
                 height: 600,
                 scene: {
                     xaxis: { title: 'Time' },
-                    yaxis: { title: 'Frequency' },
+                    yaxis: {
+                        title: 'Frequency',
+                        // range: [0, 1000]
+                    },
                     zaxis: { title: 'Vibration' }
                 }
             };
