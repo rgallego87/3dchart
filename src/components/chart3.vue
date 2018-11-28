@@ -11,7 +11,8 @@ const spectres = [];
 
 const nSpectres = 20;
 const precision = 1;
-const y_range = 2000;
+const y_range = 800;
+const specThickness = 6;
 
 export default {
   name: 'chart3',
@@ -29,7 +30,7 @@ export default {
 
         for (let i = 0; i < nSpectres; i++) {
           const spectre = { x: [], y: [], z: [] };
-          const time_int = [2 * i + 1, 2 * i + 2];
+          const time_int = [specThickness * i + 1, specThickness * i + 2];
           json[i].Spectrum.forEach((element, index) => {
             // Filtering only multiples of precision to reduce results
             if (index < y_range && index % precision === 0) {
@@ -91,6 +92,18 @@ export default {
           // family: 'TitilliumWeb-Regular'
         },
         scene: {
+          aspectratio: {
+            y: 2,
+            x: 1,
+            z: 1,
+          },
+          camera: {
+            eye: {
+              x: 2,
+              y: 2,
+              z: 2
+            }
+          },
           xaxis: {
             title: 'Time',
             gridcolor: 'rgb(86, 99, 105)'
