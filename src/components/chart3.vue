@@ -2,19 +2,35 @@
   <div>
     <h2>3dChart Test with Plotly</h2>
     <div ref="repspectre"></div>
+    <!-- <h3>Number of spectres</h3> -->
+    <!-- <vue-numeric-input v-model="chartSetup.nSpectres" autofocus></vue-numeric-input> -->
   </div>
 </template>
 
 <script>
+import VueNumericInput from 'vue-numeric-input'
 
 const spectres = [];
 
-const nSpectres = 20;
-const precision = 1;
-const y_range = 800;
-const specThickness = 6;
+// const nSpectres = 20;
+// const precision = 1;
+// const y_range = 800;
+// const specThickness = 6;
 
 export default {
+  components: {
+    VueNumericInput
+  },
+  data() {
+    return {
+      chartSetup: {
+        nSpectres: 20,
+        precision: 1,
+        y_range: 800,
+        specThickness: 6
+      }
+    }
+  },
   name: 'chart3',
 
   created() {
@@ -28,12 +44,12 @@ export default {
         // const json = await data.json();     
         const json = await require('../../public/chart-test.json');
 
-        for (let i = 0; i < nSpectres; i++) {
+        for (let i = 0; i < this.chartSetup.nSpectres; i++) {
           const spectre = { x: [], y: [], z: [] };
-          const time_int = [specThickness * i + 1, specThickness * i + 2];
+          const time_int = [this.chartSetup.specThickness * i + 1, this.chartSetup.specThickness * i + 2];
           json[i].Spectrum.forEach((element, index) => {
             // Filtering only multiples of precision to reduce results
-            if (index < y_range && index % precision === 0) {
+            if (index < this.chartSetup.y_range && index % this.chartSetup.precision === 0) {
               // Inserting two times same because of Plotly format
               spectre.x.push(time_int);
               spectre.y.push([element.frecuencia, element.frecuencia]);
@@ -72,7 +88,7 @@ export default {
     },
     drawPlot() {
       const data = [];
-      const nTraces = nSpectres;
+      const nTraces = this.chartSetup.nSpectres;
 
       for (let i = 0; i < nTraces; i++) {
         data.push(this.generateTrace(spectres[i].x, spectres[i].y, spectres[i].z));
