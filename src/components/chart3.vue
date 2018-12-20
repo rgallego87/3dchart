@@ -72,15 +72,31 @@ export default {
         z: z,
         type: 'surface',
         showscale: false,
+        // cmin: 1,
+        // cmax: 1.5,
+        // reversescale: true,
+        cauto: true,
         colorscale: [
-          [0, '#E8F1FB'],
-          [0.25, '#D2E3F8'],
-          [0.375, '#BBD5F4'],
-          [0.5, '#A5C8F0'],
-          [0.625, '#8EBAED'],
-          [0.75, '#77ACE9'],
-          [0.875, '#619EE6'],
-          [1, '#4A90E2']
+          // For one color put same color around the scale
+          // [0, '#E8F1FB'],
+          // [0.25, '#D2E3F8'],
+          // [0.375, '#BBD5F4'],
+          // [0.5, '#A5C8F0'],
+          // [0.625, '#8EBAED'],
+          // [0.75, '#77ACE9'],
+          // [0.875, '#619EE6'],
+          // [1, '#4A90E2']
+          [0, 'rgb(88,142,202)'],
+          [0.1, 'rgb(88,142,202)'],
+          [0.2, 'rgb(88,142,202)'],
+          [0.3, 'rgb(88,142,202)'],
+          [0.4, 'rgb(88,142,202)'],
+          [0.5, 'rgb(88,142,202)'],
+          [0.6, 'rgb(88,142,202)'],
+          [0.7, 'rgb(88,142,202)'],
+          [0.8, 'rgb(88,142,202)'],
+          [0.9, 'rgb(88,142,202)'],
+          [1, 'rgb(88,142,202)'],
         ]
       }
 
@@ -99,8 +115,8 @@ export default {
       const layout = {
         showlegend: false,
         autosize: true,
-        width: 600,
-        height: 600,
+        width: 1092,
+        height: 800,
         paper_bgcolor: 'rgb(53, 57, 67)',
         font: {
           size: 12,
@@ -113,11 +129,26 @@ export default {
             x: 1,
             z: 1,
           },
+          // domain: {
+          //   x: [0.33, 0.66],
+          //   y: [0.5, 1.0]
+          // },
           camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: -0.3
+            },
+            // Rotation
             eye: {
-              x: 2,
-              y: 2,
-              z: 2
+              x: 1.9,
+              y: 0.2,
+              z: 0.1
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 0
             }
           },
           xaxis: {
