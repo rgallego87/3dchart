@@ -33,7 +33,7 @@ export default {
 
 .center {
   margin: 0 auto;
-  width: 70%;
+  width: 50%;
 }
 
 .bkg {
